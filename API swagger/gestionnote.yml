@@ -1,0 +1,400 @@
+openapi: '3.0.2'
+info:
+  title: SDT21093
+  version: '1.0'
+  description: 'API for "Gestion des students de baccalaureat"' 
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: hei.aina.59@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+tags:
+- name: "student"
+- name: "note"
+- name: "registration"
+paths:
+     
+  /student:
+    get:
+      tags:
+        - student
+      summary: Get a list of student
+      operationId: getstudent
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true    
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        200:
+          description: List student
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Students'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "400_BAD_REQUEST"
+                  message:
+                    type: string
+                    example: "Parameter missing"
+        
+    
+
+  /student/{id_student}:
+    get:
+      tags:
+        - student
+      summary: Get a student by id and see all students
+      operationId: getstudentID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true  
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Students'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: not found
+          content: {}  
+         
+    post:
+      tags:
+        - student
+      summary: post a student
+      operationId: addstudent
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true  
+      requestBody:
+        description: student to update
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/NewStudent'   
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Students'
+        400:
+          description: Bad Request
+          content: {}
+  /note:
+    get:
+      tags:
+        - note
+      summary: Get a list of note
+      operationId: getnote
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true    
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        200:
+          description: List note
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Students'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "400_BAD_REQUEST"
+                  message:
+                    type: string
+                    example: "Parameter missing"        
+
+  /note/id_note:
+    post:
+      tags:
+        - note
+      summary: post list of note
+      operationId: addnote
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true  
+      requestBody:
+        description: note to update
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Note'   
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        400:
+          description: Bad Request
+          content: {}
+
+    delete:
+      tags:
+        - student
+      summary: delete a student by id
+      operationId: deletestudentID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true  
+      responses:
+        200:
+          description: deleted successfully
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /note/id_note/id_student:
+    delete:
+      tags:
+        - note
+      summary: delete a note by id
+      operationId: deletenoteID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true  
+      responses:
+        200:
+          description: deleted successfully
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: not found
+          content: {}       
+
+  /note/id_student:
+    put:
+      tags:
+        - note
+      summary: update a note student by id
+      operationId: updatenoteID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true  
+      responses:
+        200:
+          description: deleted successfully
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: not found
+          content: {} 
+
+  /registration:
+    get:
+      tags:
+        - "registration"
+      summary: Get a list of registration
+      operationId: getregistration
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int64
+          required: true    
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        200:
+          description: List registration
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Registration'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "400_BAD_REQUEST"
+                  message:
+                    type: string
+                    example: "Parameter missing"  
+  /registration/id_student/id_note:
+    put:
+      tags:
+        - registration
+      summary: update registration by id
+      operationId: updateregistrationID
+      parameters:
+        - name: page
+          in: path
+          schema:
+            type: integer
+          required: true  
+      responses:
+        200:
+          description: deleted successfully
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: not found
+          content: {}                           
+    
+             
+  
+
+components:
+  schemas:
+    Students:
+      allOf:
+        - $ref: '#/components/schemas/NewStudent'
+      type: object
+      properties:
+         id_student:
+          type: integer
+          format: int64      
+    NewStudent:
+      allOf:
+        - $ref: '#/components/schemas/NewStudent'
+      type: object
+      properties:
+         name:
+          type: string 
+         reference: 
+          type: string  
+         group: 
+          type: string
+    Note:
+      allOf:
+        - $ref: '#/components/schemas/NewNote'
+      type: object
+      properties:
+         id_note:
+          type: string
+          format: int64      
+    NewNote:
+      type: object
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+        reference: 
+          type: string 
+
+          items :
+          $ref: '#/components/schemas/NewStudent'
+          example:
+            - id: 1
+              name: Lilia
+              reference: STD77777
+            - id: 2
+              name: Amelie
+              reference: STD22222
+    Registration:
+      allOf:
+        - $ref: '#/components/schemas/Registration'
+      type: object
+      properties:
+         id_registration:
+          type: array
+          format: int64      
+    NewRegistration:
+      type: object
+      properties:
+        id_registration:
+          type: array
+        id_student:
+          type: array
+        id_note:
+          type: array
+          items :
+          $ref: '#/components/schemas/NewStudent'
+          example:
+            - id: 1
+              name: Eric
+              reference: STD33333
+            - id: 2
+              name: Vincent
+              reference: STD12345        
+      
+          
+      
+    
+
+     
